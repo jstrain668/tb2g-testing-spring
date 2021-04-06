@@ -7,6 +7,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.reset;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import org.assertj.core.util.Lists;
@@ -107,5 +108,16 @@ class OwnerControllerTest {
 
         then(clinicService).should().findOwnerByLastName(anyString());
 
+    }
+
+    @Test
+    void testNewOwnerPostValid() throws Exception {
+        mockMvc.perform(post("/owners/new")
+                    .param("firstName", "Jimmy")
+                    .param("lastName", "Buffett")
+                    .param("Address", "123 Duval St ")
+                    .param("city", "Key West")
+                    .param("telephone", "3151231234"))
+                .andExpect(status().is3xxRedirection());
     }
 }
